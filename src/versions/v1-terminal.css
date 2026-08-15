@@ -58,8 +58,8 @@ html[data-theme='light'] .t1 {
   --t1-float-bg: rgba(255, 255, 255, 0.92);
   --t1-hero-fade: linear-gradient(
     180deg,
-    rgba(238, 241, 245, 0.8) 0%,
-    rgba(238, 241, 245, 0.62) 40%,
+    rgba(238, 241, 245, 0.35) 0%,
+    rgba(238, 241, 245, 0.2) 40%,
     var(--t1-bg) 100%
   );
   --t1-glow-soft: rgba(0, 138, 89, 0.16);
@@ -67,9 +67,38 @@ html[data-theme='light'] .t1 {
 }
 
 /* Light-theme refinements: quieter video, deeper glow tint on cards. */
-html[data-theme='light'] .t1-hero-video {
-  opacity: 0.22;
-  filter: saturate(0.3) contrast(1.05);
+/* Light mode: the dark footage doesn't suit a light canvas, so the hero
+   swaps to a hand-coded backdrop instead of the video — soft palette glows
+   with a slow drift. (The videos only mount in dark mode.) */
+.t1-hero-lightback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(620px 420px at 25% 30%, rgba(0, 138, 89, 0.2), transparent 62%),
+    radial-gradient(720px 520px at 78% 72%, rgba(14, 116, 144, 0.17), transparent 62%),
+    radial-gradient(500px 400px at 60% 20%, rgba(0, 138, 89, 0.12), transparent 60%);
+  animation: t1-light-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes t1-light-drift {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.5%, 1%, 0) scale(1.06);
+  }
+}
+
+/* Soft light halo so the dark title stays readable over the video. */
+html[data-theme='light'] .t1-title {
+  text-shadow: 0 1px 32px rgba(238, 241, 245, 0.85), 0 1px 4px rgba(238, 241, 245, 0.9);
+}
+
+/* A touch more definition for the neon grid on the light backdrop. */
+html[data-theme='light'] .t1-hero-grid {
+  background-image:
+    linear-gradient(rgba(0, 138, 89, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 138, 89, 0.07) 1px, transparent 1px);
 }
 
 html[data-theme='light'] .t1-btn-primary {
@@ -242,6 +271,14 @@ html[data-theme='light'] .t1-step::before {
   object-fit: cover;
   opacity: 0.45;
   filter: saturate(0.6) contrast(1.1);
+  /* Crossfade duration must match FADE_MS in the hero-video loop effect. */
+  transition: opacity 1s ease;
+}
+
+/* The standby layer, hidden until its turn in the crossfade cycle. */
+.t1-hero-video.is-hidden,
+html[data-theme='light'] .t1-hero-video.is-hidden {
+  opacity: 0;
 }
 
 .t1-hero-overlay {
@@ -620,7 +657,9 @@ html[data-theme='light'] .t1-step::before {
 .t1-hl {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
+  text-align: center;
   padding: 12px 16px;
   background: var(--t1-surface);
   border: 1px solid var(--t1-line);
@@ -1416,7 +1455,8 @@ html[data-theme='light'] .t1-step::before {
   .t1-window::after,
   .t1-dot-g,
   .t1-role,
-  .t1-step-num {
+  .t1-step-num,
+  .t1-hero-lightback {
     animation: none;
   }
 

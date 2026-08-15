@@ -166,6 +166,8 @@ export default function TerminalVersion() {
   const menuRef = useRef<HTMLDivElement | null>(null)
   const toggleRef = useRef<HTMLButtonElement | null>(null)
   const wasOpen = useRef(false)
+  const videoARef = useRef<HTMLVideoElement | null>(null)
+  const videoBRef = useRef<HTMLVideoElement | null>(null)
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   useFocusTrap(menuRef, menuOpen, closeMenu)
@@ -190,6 +192,61 @@ export default function TerminalVersion() {
       document.body.style.overflow = prev
     }
   }, [menuOpen])
+
+  // Seamless loop with two crossfading layers (dark mode only). The visible
+  // layer plays to the end while the hidden one starts from frame 0 just
+  // before the loop point; a 1s dissolve swaps them, so the layer that
+  // restarts is always invisible. The hidden layer stays paused to save
+  // decode. Reduced motion keeps a single natively-looping video instead.
+  // In light mode the videos aren't mounted (the backdrop is CSS-only).
+  useEffect(() => {
+    const a = videoARef.current
+    const b = videoBRef.current
+    if (!dark || !a) return
+
+    if (prefersReducedMotion() || !b) {
+      a.loop = true
+      b?.pause()
+      return
+    }
+
+    const FADE_MS = 1000
+    let active = a
+    let fading = false
+    let swapTimer: number | undefined
+
+    const swap = () => {
+      if (fading) return
+      fading = true
+      const incoming = active === a ? b : a
+      const outgoing = active
+      incoming.currentTime = 0
+      void incoming.play()
+      incoming.classList.remove('is-hidden')
+      outgoing.classList.add('is-hidden')
+      active = incoming
+      window.clearTimeout(swapTimer)
+      swapTimer = window.setTimeout(() => {
+        fading = false
+        outgoing.pause()
+      }, FADE_MS)
+    }
+
+    const onTimeUpdate = (e: Event) => {
+      const v = e.target as HTMLVideoElement
+      if (v === active && v.duration && v.currentTime >= v.duration - FADE_MS / 1000) {
+        swap()
+      }
+    }
+
+    a.addEventListener('timeupdate', onTimeUpdate)
+    b.addEventListener('timeupdate', onTimeUpdate)
+    return () => {
+      a.removeEventListener('timeupdate', onTimeUpdate)
+      b.removeEventListener('timeupdate', onTimeUpdate)
+      window.clearTimeout(swapTimer)
+    }
+  }, [dark])
 
   // Close the menu if the viewport grows past the mobile breakpoint.
   useEffect(() => {
@@ -259,17 +316,36 @@ export default function TerminalVersion() {
 
       <main id="main">
         <section className="t1-hero" id="top">
-          <video
-            className="t1-hero-video"
-            style={parallax(depth, 0.22, reduced)}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/assets/img/code-dark.jpg"
-          >
-            <source src="/assets/video/typing-code-loop.mp4" type="video/mp4" />
-          </video>
+          {dark ? (
+            <>
+              <video
+                ref={videoARef}
+                className="t1-hero-video"
+                style={parallax(depth, 0.22, reduced)}
+                autoPlay
+                muted
+                playsInline
+                poster="/assets/img/code-dark.jpg"
+              >
+                <source src="/assets/video/typing-code-loop.mp4" type="video/mp4" />
+              </video>
+              {/* Standby layer: stays paused at frame 0 until its crossfade turn. */}
+              <video
+                ref={videoBRef}
+                className="t1-hero-video t1-hero-dupe is-hidden"
+                style={parallax(depth, 0.22, reduced)}
+                muted
+                playsInline
+                preload="auto"
+                poster="/assets/img/code-dark.jpg"
+                aria-hidden="true"
+              >
+                <source src="/assets/video/typing-code-loop.mp4" type="video/mp4" />
+              </video>
+            </>
+          ) : (
+            <div className="t1-hero-lightback" aria-hidden="true" />
+          )}
           <div className="t1-hero-overlay" />
           <div className="t1-hero-grid" style={parallax(depth, 0.42, reduced)} />
 
