@@ -61,26 +61,32 @@ src/
     v1-terminal.css
 public/assets/
   img/        # Pexels photos
-  video/      # looping Pexels video (hero backdrop)
+  video/      # looping Pexels videos (dark + light hero backdrops)
 ```
 
 ## Where the copy lives — `src/content.ts`
 
 Every visible string is content-driven. Edit `src/content.ts`, not the
-component. The file is organized as:
+component. Prose blocks are **arrays** — each entry renders as its own
+paragraph (`subheadline`, `about.paragraphs`, `contact.paragraphs`), so
+adding a line is a copy edit, never a component change. The file is
+organized as:
 
-- **Identity** — `name`, `role`, `headline`, `subheadline`, `location`,
-  `email` (public address) and `emailTo` (the real recipient behind
-  `mailto:` links), `socials`.
-- **`about`** — intro, paragraphs, and the scannable `highlights` stats.
+- **Identity** — `name`, `role`, `headline`, `subheadline` (a list of
+  lines), `location`, `email` (public address) and `emailTo` (the real
+  recipient behind `mailto:` links), `socials`.
+- **`about`** — `intro` (the lead paragraph), `paragraphs` (body copy), and
+  the scannable `highlights` stats.
 - **`stack` / `tools`** — skill categories and the `vibe_tools$` chips.
 - **`projects`** — each card's copy, plus optional `demo` and `repo` URLs
   (omit a field to hide that button).
-- **`process`** — the four workflow steps.
-- **`contact`** — headline and note.
+- **`process`** — the four workflow steps, plus `processClosing` (the
+  Explore → Build → Refine → Ship mantra under the grid).
+- **`contact`** — `headline` and `paragraphs` (the final paragraph renders
+  with the neon accent as the closing pitch).
 - **`terminal`** — the hero terminal window: title, prompt, cwd, and the
-  commands it runs (`whoami`, `cat vibe.txt`, `git log --oneline -1` and
-  its output).
+  commands it runs (`whoami` + its `whoamiOutput`, `cat vibe.txt`,
+  `git log --oneline -1` + its output).
 - **`ui`** — every UI label: nav items (id + label — the scrollspy derives
   section ids from `content.ui.nav`), section tags and titles, CTA commands,
   tools label, project link labels, back-to-top, menu, skip link, brand text,
@@ -88,11 +94,12 @@ component. The file is organized as:
 - **`pexelsCredit`** — footer attribution.
 
 The only strings left in the component are structural (the `#top` anchor),
-the 📍 pin, and text derived from other fields (copyright year, `name — role`).
+the 📍 pin, and text derived from other fields (the copyright year, the
+footer line, and the terminal window title).
 
 ## Media credits
 
-Photos and the looping hero video are from **Pexels**
+Photos and the looping hero videos (dark and light theme) are from **Pexels**
 ([pexels.com](https://www.pexels.com/)) and are free to use per the
 [Pexels license](https://www.pexels.com/license/). Attribution is in the
 footer.

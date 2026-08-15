@@ -8,13 +8,11 @@
  */
 type Props = {
   size?: number
-  className?: string
 }
 
-export default function TerminalLogo({ size = 22, className }: Props) {
+export default function TerminalLogo({ size = 22 }: Props) {
   return (
     <svg
-      className={className}
       width={size}
       height={size}
       viewBox="0 0 32 32"

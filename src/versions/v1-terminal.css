@@ -67,9 +67,9 @@ html[data-theme='light'] .t1 {
 }
 
 /* Light-theme refinements: quieter video, deeper glow tint on cards. */
-/* Light mode: the dark footage doesn't suit a light canvas, so the hero
-   swaps to a hand-coded backdrop instead of the video — soft palette glows
-   with a slow drift. (The videos only mount in dark mode.) */
+/* Light mode: the dark footage doesn't suit a light canvas, so the hero uses
+   its own pale gradient loop, with the CSS glows kept underneath as a
+   loading fallback while the video streams in. */
 .t1-hero-lightback {
   position: absolute;
   inset: 0;
@@ -281,6 +281,13 @@ html[data-theme='light'] .t1-hero-video.is-hidden {
   opacity: 0;
 }
 
+/* Light mode: the pale gradient loop sits brighter and softer than the dark
+   footage, since there's no dark canvas to absorb it. */
+html[data-theme='light'] .t1-hero-video {
+  opacity: 0.6;
+  filter: saturate(0.7) contrast(1.02) brightness(1.03);
+}
+
 .t1-hero-overlay {
   position: absolute;
   inset: 0;
@@ -418,7 +425,6 @@ html[data-theme='light'] .t1-hero-video.is-hidden {
 
 .t1-type {
   margin-top: 8px;
-  font-weight: 700;
 }
 
 /* Second terminal command fades in after the headline finishes typing. */
@@ -945,6 +951,14 @@ html[data-theme='light'] .t1-hero-video.is-hidden {
   transition: text-shadow 0.2s ease;
 }
 
+/* Closing mantra beneath the process grid. */
+.t1-process-mantra {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--t1-dim);
+  font-size: 14px;
+}
+
 /* Cursor-following glow shared by stack and process cards (--mx/--my). */
 .t1-stack-card::before,
 .t1-step::before {
@@ -1022,6 +1036,12 @@ html[data-theme='light'] .t1-hero-video.is-hidden {
   margin: 18px auto 0;
   max-width: 52ch;
   color: var(--t1-dim);
+}
+
+/* The closing pitch — neon accent so it lands. */
+.t1-contact-closer {
+  color: var(--t1-neon);
+  font-weight: 600;
 }
 
 .t1-mail {

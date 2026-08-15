@@ -20,32 +20,32 @@ export type Project = {
   repo?: string
 }
 
-export type StackCategory = {
+type StackCategory = {
   category: string
   items: string[]
 }
 
-export type ProcessStep = {
+type ProcessStep = {
   step: string
   title: string
   description: string
 }
 
-export type SectionHeading = {
+type SectionHeading = {
   tag: string
   title: string
 }
 
-export type Social = {
+type Social = {
   label: string
   url: string
 }
 
-export type Content = {
+type Content = {
   name: string
   role: string
   headline: string
-  subheadline: string
+  subheadline: string[]
   location: string
   email: string
   /** Actual recipient for `mailto:` links — `email` stays as the public address shown. */
@@ -60,9 +60,11 @@ export type Content = {
   tools: string[]
   projects: Project[]
   process: ProcessStep[]
+  /** Closing mantra under the process steps. */
+  processClosing: string
   contact: {
     headline: string
-    note: string
+    paragraphs: string[]
   }
   /** Copy for the hero terminal window. */
   terminal: {
@@ -70,6 +72,8 @@ export type Content = {
     prompt: string
     cwd: string
     whoami: string
+    /** Output echoed under `whoami` — a one-line identity drawn from about.intro. */
+    whoamiOutput: string
     cat: string
     gitLog: string
     gitLogOutput: string
@@ -114,8 +118,9 @@ export const content: Content = {
   name: 'perigrino',
   role: 'C# / .NET Developer',
   headline: 'Ideas in. Products out.',
-  subheadline:
+  subheadline: [
     'C#/.NET-first, branching into web apps — and shipping. Building real products for Ghana.',
+  ],
   location: 'Accra, Ghana',
   email: 'hello@perigrino.dev',
   emailTo: 'chasebruce@gmail.com',
@@ -221,38 +226,45 @@ export const content: Content = {
   process: [
     {
       step: '01',
-      title: 'Ideate',
+      title: 'Explore',
       description:
-        'One sentence: who is this for, and how should it make them feel? A spec is what committees write; a feeling ships.',
+        'Start with a problem worth solving. Understand who it’s for, what they need, and what a useful solution could look like. You don’t need everything figured out — you need a direction worth building.',
     },
     {
       step: '02',
-      title: 'Prototype',
+      title: 'Build',
       description:
-        'Prompt the core loop into existence in a day. Ugly is fine. Alive beats perfect.',
+        'Turn the idea into something real. AI-assisted development and vibe coding get me from concept to working software fast. The first version doesn’t need to be perfect — it needs to exist.',
     },
     {
       step: '03',
-      title: 'Polish',
+      title: 'Refine',
       description:
-        'The vibe-check pass. Tighten type, spacing, micro-interactions — until nothing looks generated.',
+        'Once it works, make it better. Clean up the code, sharpen the experience, tighten the UI, fix what feels wrong, and learn as you go. This is where a prototype starts becoming a product.',
     },
     {
       step: '04',
       title: 'Ship',
       description:
-        'Deploy. Share the build-log. Get feedback. Ship again. Momentum compounds. That’s the whole game.',
+        'Put it in the hands of real people. Deploy it, gather feedback, learn from what happens, and iterate. Every release is another chance to improve.',
     },
   ],
+  processClosing:
+    'Explore → Build → Refine → Ship — then repeat. That’s the workflow.',
   contact: {
-    headline: 'Let’s ship your idea.',
-    note: 'Open to collabs and freelance builds, especially Ghana-focused civic, compliance and fintech tooling. Self-directed, product-minded, and shipping. If it can be built, it can be shipped.',
+    headline: 'Let’s Build Something',
+    paragraphs: [
+      'I’m open to collaborations, freelance projects, and opportunities to build meaningful products.',
+      'I’m still growing as a developer — but I bring curiosity, a willingness to learn, and a bias toward shipping. I enjoy taking an idea from “what if?” to something people can actually use.',
+      'If you have a problem worth solving, let’s build it.',
+    ],
   },
   terminal: {
     windowTitle: 'zsh',
     prompt: 'perigrino',
     cwd: '~/portfolio',
     whoami: 'whoami',
+    whoamiOutput: 'perigrino — self-directed dev · early in the journey',
     cat: 'cat vibe.txt',
     gitLog: 'git log --oneline -1',
     gitLogOutput: '1c367ce Ignore environment files (.env) in gitignore',

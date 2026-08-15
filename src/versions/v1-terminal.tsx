@@ -118,7 +118,7 @@ function RichText({ text, className }: { text: string; className?: string }) {
   return (
     <p className={className} aria-label={hasBold ? text.replace(/\*\*/g, '') : undefined}>
       <span aria-hidden={hasBold || undefined}>
-        {parts.map((part, i) =>
+        {parts.filter(Boolean).map((part, i) =>
           i % 2 === 1 ? (
             <strong key={i}>{part}</strong>
           ) : (
@@ -142,7 +142,7 @@ function HighlightItem({ text, style }: { text: string; style?: CSSProperties })
     <li ref={ref} className="t1-hl" data-reveal style={style} aria-label={text}>
       <span className="t1-hl-check" aria-hidden="true">✔</span>
       <span aria-hidden="true">
-        {parts.map((part, i) => {
+        {parts.filter(Boolean).map((part, i) => {
           if (!/^\d+$/.test(part)) return <span key={i}>{part}</span>
           const n = Number(part)
           return n >= 1000 ? (
@@ -218,16 +218,15 @@ export default function TerminalVersion() {
     }
   }, [menuOpen])
 
-  // Seamless loop with two crossfading layers (dark mode only). The visible
-  // layer plays to the end while the hidden one starts from frame 0 just
-  // before the loop point; a 1s dissolve swaps them, so the layer that
-  // restarts is always invisible. The hidden layer stays paused to save
-  // decode. Reduced motion keeps a single natively-looping video instead.
-  // In light mode the videos aren't mounted (the backdrop is CSS-only).
+  // Seamless loop with two crossfading layers (both themes, each with its own
+  // footage). The visible layer plays to the end while the hidden one starts
+  // from frame 0 just before the loop point; a 1s dissolve swaps them, so the
+  // layer that restarts is always invisible. The hidden layer stays paused to
+  // save decode. Reduced motion keeps a single natively-looping video instead.
   useEffect(() => {
     const a = videoARef.current
     const b = videoBRef.current
-    if (!dark || !a) return
+    if (!a) return
 
     if (prefersReducedMotion() || !b) {
       a.loop = true
@@ -341,36 +340,43 @@ export default function TerminalVersion() {
 
       <main id="main">
         <section className="t1-hero" id="top">
-          {dark ? (
-            <>
-              <video
-                ref={videoARef}
-                className="t1-hero-video"
-                style={parallax(depth, 0.22, reduced)}
-                autoPlay
-                muted
-                playsInline
-                poster="/assets/img/code-dark.jpg"
-              >
-                <source src="/assets/video/typing-code-loop.mp4" type="video/mp4" />
-              </video>
-              {/* Standby layer: stays paused at frame 0 until its crossfade turn. */}
-              <video
-                ref={videoBRef}
-                className="t1-hero-video t1-hero-dupe is-hidden"
-                style={parallax(depth, 0.22, reduced)}
-                muted
-                playsInline
-                preload="auto"
-                poster="/assets/img/code-dark.jpg"
-                aria-hidden="true"
-              >
-                <source src="/assets/video/typing-code-loop.mp4" type="video/mp4" />
-              </video>
-            </>
-          ) : (
-            <div className="t1-hero-lightback" aria-hidden="true" />
-          )}
+          {/* Light-mode backdrop: soft glows show through while the light video
+              streams in, and act as the fallback if autoplay is blocked. */}
+          {!dark && <div className="t1-hero-lightback" aria-hidden="true" />}
+          <>
+            <video
+              key={dark ? 'hero-dark' : 'hero-light'}
+              ref={videoARef}
+              className="t1-hero-video"
+              style={parallax(depth, 0.22, reduced)}
+              autoPlay
+              muted
+              playsInline
+              poster={dark ? '/assets/img/code-dark.jpg' : '/assets/img/light-poster.jpg'}
+            >
+              <source
+                src={dark ? '/assets/video/typing-code-loop.mp4' : '/assets/video/light-loop.mp4'}
+                type="video/mp4"
+              />
+            </video>
+            {/* Standby layer: stays paused at frame 0 until its crossfade turn. */}
+            <video
+              key={dark ? 'hero-dark-b' : 'hero-light-b'}
+              ref={videoBRef}
+              className="t1-hero-video t1-hero-dupe is-hidden"
+              style={parallax(depth, 0.22, reduced)}
+              muted
+              playsInline
+              preload="auto"
+              poster={dark ? '/assets/img/code-dark.jpg' : '/assets/img/light-poster.jpg'}
+              aria-hidden="true"
+            >
+              <source
+                src={dark ? '/assets/video/typing-code-loop.mp4' : '/assets/video/light-loop.mp4'}
+                type="video/mp4"
+              />
+            </video>
+          </>
           <div className="t1-hero-overlay" />
           <div className="t1-hero-grid" style={parallax(depth, 0.42, reduced)} />
 
@@ -390,11 +396,11 @@ export default function TerminalVersion() {
                 <p className="t1-out">
                   <span className="t1-arrow">➜</span> {content.terminal.whoami}
                 </p>
-                <p className="t1-out t1-out-dim">{content.name} — {content.role.toLowerCase()}</p>
+                <p className="t1-out t1-out-dim">{content.terminal.whoamiOutput}</p>
                 <p className="t1-out">
                   <span className="t1-arrow">➜</span> {content.terminal.cat}
                 </p>
-                <p className="t1-out t1-type">
+                <p className="t1-out t1-out-dim t1-type">
                   {typed}
                   {!headlineDone && <span className="t1-cursor">▋</span>}
                 </p>
@@ -415,7 +421,11 @@ export default function TerminalVersion() {
             <div className="t1-hero-text" data-reveal style={rd(1)}>
               <p className="t1-role">{content.role}</p>
               <h1 className="t1-title">{content.headline}</h1>
-              <p className="t1-sub">{content.subheadline}</p>
+              {content.subheadline.map((s) => (
+                <p className="t1-sub" key={s}>
+                  {s}
+                </p>
+              ))}
               <div className="t1-cta">
               <a href="#projects" className="t1-btn t1-btn-primary">
                 {content.ui.cta.viewProjects}
@@ -500,6 +510,9 @@ export default function TerminalVersion() {
               </GlowCard>
             ))}
           </div>
+          <p className="t1-process-mantra" data-reveal>
+            {content.processClosing}
+          </p>
         </section>
 
         <section className="t1-sec t1-sec-contact" id="contact" data-reveal>
@@ -508,7 +521,14 @@ export default function TerminalVersion() {
             <h2 className="t1-h2">{content.ui.sections.contact.title}</h2>
           </div>
           <p className="t1-contact-lead">{content.contact.headline}</p>
-          <p className="t1-contact-note">{content.contact.note}</p>
+          {content.contact.paragraphs.map((p, i) => (
+            <p
+              className={`t1-contact-note${i === content.contact.paragraphs.length - 1 ? ' t1-contact-closer' : ''}`}
+              key={p}
+            >
+              {p}
+            </p>
+          ))}
           <a className="t1-btn t1-btn-primary t1-mail" href={`mailto:${content.emailTo}`}>
             {content.email}
           </a>
