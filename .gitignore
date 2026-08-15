@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
 # Agent/IDE state and design references (not part of the app)
 .freebuff/
 Personal Portfolio Website Design by Wolfpixel UI_UX on Dribbble.jpeg
