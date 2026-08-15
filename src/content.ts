@@ -123,7 +123,7 @@ export const content: Content = {
   ],
   location: 'Accra, Ghana',
   email: 'hello@perigrino.dev',
-  emailTo: 'chasebruce@gmail.com',
+  emailTo: 'chasebruce1992@gmail.com',
   socials: [
     { label: 'GitHub', url: 'https://github.com/perigrino' },
     { label: 'X / Twitter', url: 'https://x.com/perigrino_' },
