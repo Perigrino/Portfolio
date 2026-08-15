@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect x="1" y="1" width="30" height="30" rx="8" fill="#0c0f14" stroke="#00ff9c" stroke-width="1.5"/>
+  <circle cx="8" cy="8" r="2" fill="#ff5f56"/>
+  <circle cx="14" cy="8" r="2" fill="#ffbd2e"/>
+  <circle cx="20" cy="8" r="2" fill="#27c93f"/>
+  <line x1="1" y1="12.5" x2="31" y2="12.5" stroke="rgba(255, 255, 255, 0.1)"/>
+  <text x="7.5" y="24.5" fill="#00ff9c" font-size="13" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, monospace" font-weight="700">$</text>
+  <rect x="17.5" y="15.5" width="7" height="9" fill="#00ff9c">
+    <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+</svg>
