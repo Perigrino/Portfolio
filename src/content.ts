@@ -125,16 +125,17 @@ export const content: Content = {
   ],
   about: {
     intro:
-      'I’m Perigrino Bruce — a self-directed developer in Accra. 11 of 13 repos are C#: WebAPIs, EF Core, JWT auth, Clean Architecture. I learned .NET the honest way — tutorials first, shipped code after — and now I build full-stack web apps.',
+      'I’m **Perigrino Bruce**, a self-directed developer in Accra, Ghana — early in my journey, but building toward a long-term career. What started with tutorials and small projects has become a serious commitment to making software that works for real people.',
     paragraphs: [
-      'The through-line: tools that solve real problems for people here. Town data for Accra. Vehicle and licence verification for Ghana traffic officers. Compliance APIs. Digital wallets. Not tutorials wearing a trench coat — real things people can use.',
-      'The trajectory tells the story. 2022–23 was the learning grind: demos and Clean Architecture reps. 2024 was consolidation. 2025–26 is product work — full-stack apps, deployments, releases. Git history as progress report.',
+      'I work mainly in **C#, .NET, Web APIs, Entity Framework Core, JWT authentication, Clean Architecture, and full-stack web development**. But technology was never the point — solving problems is. That’s why the ideas I keep returning to are practical ones: tools for local businesses, compliance systems, vehicle and licence verification, digital wallets — software with real value in Ghana and beyond.',
+      'AI-assisted development is a big part of how I build — moving from idea to prototype faster, exploring solutions, learning new technologies, and shipping sooner. It’s a powerful tool alongside the fundamentals I keep building. I’m still learning, still experimenting: building things, breaking them, and figuring out why they broke.',
+      'This portfolio is a snapshot of that journey — the things I’ve built, the problems I’ve explored, and the progress toward the developer I want to become. **I’m early in the journey, but I’m serious about where I’m going — and I’m just getting started.**',
     ],
     highlights: [
-      '11 of 13 repos are C# / .NET',
+      '10 of 14 repos are C# / .NET',
       'Peak: 103 contributions in 2023',
-      '84 contributions in 2026 — and counting',
-      'Accra-City-Towns-Api · 11 stars',
+      '84 contributions in 2026 — just getting started',
+      '3 product apps shipped in 2026',
     ],
   },
   stack: [
@@ -180,7 +181,7 @@ export const content: Content = {
       title: 'Accra-City-Towns-Api',
       tagline: 'REST API of Ghana towns',
       description:
-        'REST API serving Ghana towns and cities. Small, focused, and the most-starred repo on the profile. Built for people here, not for a tutorial.',
+        'REST API serving Ghana towns and cities. Small and focused — built for people here, not for a tutorial.',
       stack: ['C#', 'ASP.NET Core', 'REST'],
       image: '/assets/img/accra-skyline.jpg',
       year: '2023',
@@ -207,14 +208,14 @@ export const content: Content = {
       repo: 'https://github.com/perigrino/DevRoutine',
     },
     {
-      title: 'Taskly',
-      tagline: 'To-do & task tracking in Vue',
+      title: 'AdTaskly',
+      tagline: 'Browser task manager with live team sessions',
       description:
-        'A simple to-do and task-tracking app built with Vue. Proof the range goes beyond .NET — a clean frontend with no framework magic.',
-      stack: ['Vue', 'JavaScript', 'CSS'],
-      image: '/assets/img/taskly.jpg',
-      year: '2023',
-      repo: 'https://github.com/perigrino/Taskly',
+        'A fast, beautiful task manager that runs entirely in your browser — pick an identity and work solo or with a live team, no account required. React 19, TypeScript, Vite.',
+      stack: ['React', 'TypeScript', 'Vite'],
+      image: '/assets/img/adtaskly.jpg',
+      year: '2026',
+      repo: 'https://github.com/perigrino/AdTaskly',
     },
   ],
   process: [
@@ -254,7 +255,7 @@ export const content: Content = {
     whoami: 'whoami',
     cat: 'cat vibe.txt',
     gitLog: 'git log --oneline -1',
-    gitLogOutput: '8f3a2c1 shipped: Motorly — mobile field terminal for traffic officers',
+    gitLogOutput: '1c367ce Ignore environment files (.env) in gitignore',
   },
   ui: {
     skip: 'Skip to content',

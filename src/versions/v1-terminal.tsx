@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { content, pexelsCredit } from '../content'
 import type { Project } from '../content'
@@ -108,6 +108,29 @@ function CountUp({ value, start }: { value: number; start: boolean }) {
 }
 
 /**
+ * Renders **bold** markers from content strings as <strong>. When emphasis is
+ * present, the paragraph exposes the plain text as its accessible name (with
+ * the fragments hidden) so the a11y tree still reads one coherent sentence.
+ */
+function RichText({ text, className }: { text: string; className?: string }) {
+  const parts = text.split(/\*\*(.+?)\*\*/g)
+  const hasBold = parts.length > 1
+  return (
+    <p className={className} aria-label={hasBold ? text.replace(/\*\*/g, '') : undefined}>
+      <span aria-hidden={hasBold || undefined}>
+        {parts.map((part, i) =>
+          i % 2 === 1 ? (
+            <strong key={i}>{part}</strong>
+          ) : (
+            <Fragment key={i}>{part}</Fragment>
+          ),
+        )}
+      </span>
+    </p>
+  )
+}
+
+/**
  * A highlight card. Any integers in the copy count up on reveal — except
  * numbers >= 1000, which are treated as years and stay static.
  */
@@ -116,17 +139,19 @@ function HighlightItem({ text, style }: { text: string; style?: CSSProperties })
   const parts = text.split(/(\d+)/)
 
   return (
-    <li ref={ref} className="t1-hl" data-reveal style={style}>
-      <span className="t1-hl-check">✔</span>
-      {parts.map((part, i) => {
-        if (!/^\d+$/.test(part)) return <span key={i}>{part}</span>
-        const n = Number(part)
-        return n >= 1000 ? (
-          <span key={i}>{part}</span>
-        ) : (
-          <CountUp key={i} value={n} start={inView} />
-        )
-      })}
+    <li ref={ref} className="t1-hl" data-reveal style={style} aria-label={text}>
+      <span className="t1-hl-check" aria-hidden="true">✔</span>
+      <span aria-hidden="true">
+        {parts.map((part, i) => {
+          if (!/^\d+$/.test(part)) return <span key={i}>{part}</span>
+          const n = Number(part)
+          return n >= 1000 ? (
+            <span key={i}>{part}</span>
+          ) : (
+            <CountUp key={i} value={n} start={inView} />
+          )
+        })}
+      </span>
     </li>
   )
 }
@@ -409,11 +434,9 @@ export default function TerminalVersion() {
             <span className="t1-tag">{content.ui.sections.about.tag}</span>
             <h2 className="t1-h2">{content.ui.sections.about.title}</h2>
           </div>
-          <p className="t1-lead">{content.about.intro}</p>
+          <RichText className="t1-lead" text={content.about.intro} />
           {content.about.paragraphs.map((p) => (
-            <p className="t1-body" key={p}>
-              {p}
-            </p>
+            <RichText className="t1-body" key={p} text={p} />
           ))}
           <ul className="t1-highlights">
             {content.about.highlights.map((h, i) => (

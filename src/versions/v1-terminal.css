@@ -641,6 +641,18 @@ html[data-theme='light'] .t1-hero-video.is-hidden {
   max-width: 72ch;
 }
 
+/* Bold emphasis from ** markers in content.ts — name glows in the accent, */
+/* key phrases in body copy brighten toward the heading color. */
+.t1-lead strong {
+  color: var(--t1-neon);
+  font-weight: 700;
+}
+
+.t1-body strong {
+  color: var(--t1-heading);
+  font-weight: 700;
+}
+
 .t1-body {
   margin-top: 16px;
   color: var(--t1-dim);
