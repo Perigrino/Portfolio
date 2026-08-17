@@ -824,6 +824,7 @@ html[data-theme='light'] .t1-hero-video {
 }
 
 .t1-proj--icon .t1-proj-imgwrap {
+  aspect-ratio: 1 / 1;
   background: var(--t1-bg);
 }
 
