@@ -18,6 +18,8 @@ export type Project = {
   demo?: string
   /** Optional: source code URL. Omit to hide the source link on the card. */
   repo?: string
+  /** When true, the thumbnail is treated as an icon (contain, not cover). */
+  icon?: boolean
 }
 
 type StackCategory = {
@@ -211,6 +213,7 @@ export const content: Content = {
       image: '/assets/img/kopie.jpg',
       year: '2025',
       repo: 'https://github.com/perigrino/Kopie',
+      icon: true,
     },
     {
       title: 'AdTaskly',
