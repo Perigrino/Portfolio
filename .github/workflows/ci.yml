@@ -38,6 +38,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Remove stale Vercel link
+        run: rm -rf .vercel
+
       - name: Deploy
         uses: amondnet/vercel-action@v42
         with:
