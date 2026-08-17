@@ -203,14 +203,14 @@ export const content: Content = {
       repo: 'https://github.com/perigrino/ComplySync',
     },
     {
-      title: 'DevRoutine',
-      tagline: 'Dev productivity tool',
+      title: 'Kopie',
+      tagline: 'Native macOS clipboard manager',
       description:
-        'A tool that smooths out the daily dev loop. Building for your own daily annoyance is the most honest product work there is.',
-      stack: ['C#', '.NET', 'Tooling'],
-      image: '/assets/img/devroutine.jpg',
+        'Menu-bar first, keyboard-first, fast, local-only. Everything you copy, available when you need it.',
+      stack: ['Swift', 'SwiftUI', 'macOS'],
+      image: '/assets/img/kopie.jpg',
       year: '2025',
-      repo: 'https://github.com/perigrino/DevRoutine',
+      repo: 'https://github.com/perigrino/Kopie',
     },
     {
       title: 'AdTaskly',
@@ -267,7 +267,7 @@ export const content: Content = {
     whoamiOutput: 'perigrino — self-directed dev · early in the journey',
     cat: 'cat vibe.txt',
     gitLog: 'git log --oneline -1',
-    gitLogOutput: '1c367ce Ignore environment files (.env) in gitignore',
+    gitLogOutput: '5319555 fix: update email recipient',
   },
   ui: {
     skip: 'Skip to content',

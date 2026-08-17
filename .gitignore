@@ -31,3 +31,5 @@ Personal Portfolio Website Design by Wolfpixel UI_UX on Dribbble.jpeg
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.env*
