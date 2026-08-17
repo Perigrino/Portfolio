@@ -37,7 +37,7 @@ function ProjectCard({ project, style }: { project: Project; style?: CSSProperti
   const { ref, handleMouseMove } = useGlow<HTMLElement>()
 
   return (
-    <article ref={ref} className={`t1-proj${project.icon ? ' t1-proj--icon' : ''}`} data-reveal style={style} onMouseMove={handleMouseMove}>
+    <article ref={ref} className="t1-proj" data-reveal style={style} onMouseMove={handleMouseMove}>
       <div className="t1-proj-imgwrap">
         <img src={project.image} alt={project.title} loading="lazy" />
         <span className="t1-proj-year">{project.year}</span>

@@ -823,17 +823,6 @@ html[data-theme='light'] .t1-hero-video {
   transform: scale(1.05);
 }
 
-.t1-proj--icon .t1-proj-imgwrap {
-  aspect-ratio: 1 / 1;
-  background: var(--t1-bg);
-}
-
-.t1-proj--icon .t1-proj-imgwrap img {
-  object-fit: contain;
-  padding: 18%;
-  filter: none;
-}
-
 .t1-proj-year {
   position: absolute;
   top: 12px;
